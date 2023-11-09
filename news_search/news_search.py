@@ -64,7 +64,7 @@ def harvey_helper(company):
             if i == j["title"]:
                 result.append(j)
     
-    print(result)
+    return result
     
 if __name__ == "__main__":
     harvey_helper("Monkey Exchange")
