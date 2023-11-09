@@ -13,7 +13,7 @@ def harvey_helper(company):
 
     gn = GoogleNews()
 
-    res = gn.search("intitle:ByBox")
+    res = gn.search(f"intitle:{company}")
 
     structured = []
 
@@ -67,4 +67,4 @@ def harvey_helper(company):
     print(result)
     
 if __name__ == "__main__":
-    harvey_helper("ByBox")
+    harvey_helper("Monkey Exchange")
