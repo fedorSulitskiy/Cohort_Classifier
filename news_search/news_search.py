@@ -28,7 +28,7 @@ def harvey_helper(company):
         )
 
     prompt_scaffold = """
-        Out of the news headlines below, which one is most likely corresponding to an article about investments, mergers or acquisitions made by the company {company}? Return the result as a list without any explanations or additional writing.
+        Out of the news headlines below, which ones are the most likely corresponding to an article about investments, mergers or acquisitions made by the company {company}? Return the result as a list without any explanations or additional writing.
         
         Headlines:
         
@@ -48,6 +48,8 @@ def harvey_helper(company):
         input_variables=["company", "headlines"],
         template=prompt_scaffold,
     )
+    
+    # print(headlines)
 
     llm = ChatOpenAI(model_name='gpt-3.5-turbo', temperature=0)
 
@@ -66,5 +68,5 @@ def harvey_helper(company):
     
     return result
     
-if __name__ == "__main__":
-    harvey_helper("Monkey Exchange")
+# if __name__ == "__main__":
+#     print(harvey_helper("ByBox"))
