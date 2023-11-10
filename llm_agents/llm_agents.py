@@ -1,13 +1,15 @@
 from dotenv import load_dotenv
 import json
-
-# Required to load hidden variables from the environment
-# In this case it is the API key for OpenAI
-load_dotenv()
+import requests
+from bs4 import BeautifulSoup
 
 from langchain.prompts import PromptTemplate
 from langchain.chat_models import ChatOpenAI
 from langchain.chains import LLMChain
+
+# Required to load hidden variables from the environment
+# In this case it is the API key for OpenAI
+load_dotenv()
 
 class CohortQualifier:
     """
@@ -162,3 +164,35 @@ class CohortQualifier:
         res = chain.run(description=description)
         
         return json.loads(res)["res"]
+    
+    def get_website_text(self, website: str) -> str:
+        response = requests.get(website)
+        
+        if response.status_code == 200:
+            soup = BeautifulSoup(response.content, 'html.parser')
+            res = soup.get_text()
+            res = res.replace("\t", "")
+            res = res.encode("unicode_escape").decode()
+        else:
+            return "Error"
+        
+        def remove_duplicates_preserve_order(input_list):
+            unique_items = []
+            for item in input_list:
+                if item not in unique_items:
+                    unique_items.append(item)
+            return unique_items
+        
+        result = remove_duplicates_preserve_order(res.split("\\n"))
+        result = [s for s in result if s.strip() != ""]
+        
+        for i in result:
+            length = round(len(i)*0.7)
+            
+            for j in result:
+                if i[:length] == j[:length] and i != j:
+                    result.remove(j)
+                    
+        result = [s for s in result if " " in s]
+        
+        return " ".join(result)
