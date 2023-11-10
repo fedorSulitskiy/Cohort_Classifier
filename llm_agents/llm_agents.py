@@ -85,7 +85,6 @@ class CohortQualifier:
                 "Experiential Players",
                 "Loyalty",
                 "MarTech",
-                "MarTech",
                 "Personalization Software",
                 "Sales Enablement Software",
                 "Cybersecurity",
