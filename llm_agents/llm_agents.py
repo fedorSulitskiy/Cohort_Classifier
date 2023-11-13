@@ -234,7 +234,7 @@ class CohortQualifier:
             result = qa(
                 {
                     "query": f"""
-                You are a financial analyst. Which cohort best suits a company of the following description. Return only the cohort name, without any explantions. If you can't determine the right answer then return "Not sure".
+                You are a financial analyst. Which cohort best suits a company of the following description. Return only the cohort name, without any explantions.
                     
                 description = {description}
                 
