@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from llm_agents.llm_agents import CohortQualifier
-from news_search.news_search import harvey_helper
+
 app = FastAPI()
 
 CQ = CohortQualifier()
@@ -25,11 +25,6 @@ async def process_input(desc: str, website: str):
         return description_path(desc)    
     
     return CQ.scemantic_classify(web_text[:2000], "web")
-
-@app.get("/harvey/")
-async def process_input(input_str: str):
-    result = harvey_helper(input_str)
-    return {"output": result}
 
 @app.get("/length/")
 async def process_input(input_str: str):
