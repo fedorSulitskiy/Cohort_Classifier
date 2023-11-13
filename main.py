@@ -9,7 +9,11 @@ def description_path(desc: str):
     desc_words = desc.split()
     
     if len(desc_words) < 50:
-        return ""
+        return {
+            "result": "N/A",
+            "source": "source",
+            "total_cost": "",
+        }
     
     return CQ.scemantic_classify(desc, "desc")
     

@@ -237,8 +237,7 @@ class CohortQualifier:
                     
                 description = {description}
                 
-                Example response = "Consumer Fintech"
-                
+                Example response = "Consumer Fintech"            
                 """})
             
             return {
