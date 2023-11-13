@@ -6,21 +6,25 @@ app = FastAPI()
 CQ = CohortQualifier()
 
 
-def description_path(desc: str):
+def description_path(desc: str, brute_force: bool = False):
     desc_words = desc.split()
 
     if len(desc_words) < 50:
         return {
             "result": {"result": "N/A"},
-            "source": "source",
+            "source": "",
             "total_cost": "",
         }
 
-    return CQ.scemantic_classify(desc, "desc")
+    return (
+        CQ.brute_classify(desc, "desc")
+        if brute_force
+        else CQ.scemantic_classify(desc, "desc")
+    )
 
 
 @app.get("/process/")
-async def process_input(desc: str, website: str):
+async def process_input(desc: str, website: str, brute_force: bool = False):
     if " " in website:
         inter = website.split()
         website = inter[0]
@@ -28,9 +32,13 @@ async def process_input(desc: str, website: str):
     web_text = CQ.get_website_text(website)
 
     if web_text[:5] == "Error" or len(web_text) < 500:
-        return description_path(desc)
+        return description_path(desc, brute_force)
 
-    return CQ.scemantic_classify(web_text[:2000], "web")
+    return (
+        CQ.brute_classify(web_text[:2000], "web")
+        if brute_force
+        else CQ.scemantic_classify(web_text[:2000], "web")
+    )
 
 
 @app.get("/length/")

@@ -172,7 +172,7 @@ class CohortQualifier:
 
         # I'm not going for the most efficient way here
         # Set up data I wanna embed into v-db
-        
+
         # Initialize an empty list to store DataFrames
         dfs = []
         # Iterate over cohorts.items()
@@ -217,7 +217,7 @@ class CohortQualifier:
             res = chain.run(description=description)
 
             return {
-                "result": json.loads(res)["res"],
+                "result": {"result": json.loads(res)["res"]},
                 "source": source,
                 "total_cost": cb.total_cost,
             }
@@ -229,17 +229,20 @@ class CohortQualifier:
             retriever=self.docsearch.as_retriever(),
             return_source_documents=True,
         )
-        
-        with get_openai_callback() as cb:
 
-            result = qa({"query": f"""
-                You are a financial analyst. Which cohort best suits a company of the following description. Return only the cohort name, without any explantions.
+        with get_openai_callback() as cb:
+            result = qa(
+                {
+                    "query": f"""
+                You are a financial analyst. Which cohort best suits a company of the following description. Return only the cohort name, without any explantions. If you can't determine the right answer then return "Not sure".
                     
                 description = {description}
                 
                 Example response = "Consumer Fintech"            
-                """})
-            
+                """
+                }
+            )
+
             return {
                 "result": result,
                 "source": source,
